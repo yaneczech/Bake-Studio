@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Bake Studio",
+  "version": "0.1.0",
+  "identifier": "com.vjb.bakestudio",
+  "build": {
+    "beforeDevCommand": "npm run dev --workspace @bake-studio/studio",
+    "beforeBuildCommand": "npm run build --workspace @bake-studio/studio",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Bake Studio",
+        "width": 1440,
+        "height": 960,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": false,
+    "targets": "all",
+    "icon": []
+  }
+}

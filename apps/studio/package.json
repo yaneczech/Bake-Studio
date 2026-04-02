@@ -1,0 +1,28 @@
+{
+  "name": "@bake-studio/studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "dependencies": {
+    "@bake-studio/media-pipeline": "0.1.0",
+    "@bake-studio/project-model": "0.1.0",
+    "@bake-studio/shared": "0.1.0",
+    "@bake-studio/vjb-core": "0.1.0",
+    "@tauri-apps/api": "^2.8.0",
+    "solid-js": "^1.9.12"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.3",
+    "vite-plugin-solid": "^2.11.8"
+  }
+}
