@@ -143,4 +143,19 @@ Areas where feedback is especially useful:
 - codec and container interoperability
 - Apple Silicon and Vulkan bake performance
 
+## License
+
+Bake Studio is distributed under the `Bake Studio Free Use No-Resale License 1.0`.
+
+In practical terms:
+
+- you may use the software for free, including for commercial work and profit-generating output
+- you may modify and share it
+- you may not sell the software itself or resell copies of it to third parties
+- you may charge for services performed with it, as long as the software itself remains free
+
+This is a source-available license, not an OSI open-source license.
+
+See also: [LICENSE-FAQ.md](/Users/janjanecek/Documents/GitHub/VJB/Bake%20Studio/LICENSE-FAQ.md)
+
 Developed by Jan Janecek.

@@ -1,112 +1,112 @@
-Technické zadání: Bake Studio (TS-1)
+Technical Brief: Bake Studio (TS-1)
 
-Verze: 1.1 (Duben 2026)
+Version: 1.1 (April 2026)
 
-Cíl: Vytvořit authoringový nástroj pro přípravu AI-interpolovaných VJ smyček v otevřeném formátu `.vjb`.
+Goal: Build an authoring tool for preparing AI-interpolated VJ loops in the open `.vjb` format.
 
-1. Jádro systému (The Engine)
+1. Core System (The Engine)
 
-Software funguje jako orchestrátor mezi uživatelským vstupem, AI modely a video kodéry.
+The software acts as an orchestrator between user input, AI models, and video encoders.
 
-A. AI interpolační modul
+A. AI interpolation module
 
-- Implementace: integrace RIFE v4.x přes `rife-ncnn-vulkan`
-- Vlastnosti:
-- Podpora `fp16` precision s automatickou aktivací na Apple Silicon a RTX kartách
-- Možnost volby cílového FPS: `auto`, `120`, `240`
-- Volitelný upscale: integrace Real-ESRGAN před interpolací
+- Implementation: RIFE v4.x integration via `rife-ncnn-vulkan`
+- Features:
+- `fp16` precision support with automatic enablement on Apple Silicon and RTX GPUs
+- Target FPS selection: `auto`, `120`, `240`
+- Optional upscale: Real-ESRGAN integration before interpolation
 
-B. Video I/O a decoding
+B. Video I/O and decoding
 
-- Vstup: ProRes (`422`, `4444`, `Log`), `H.264`, `H.265`
-- macOS: využití VideoToolbox pro HW akceleraci ProRes decode
-- Výstup (`The Bake`):
-- Primární: `HAP Q` pro Windows a univerzální playback
-- Sekundární: `ProRes 4444` pro Mac a alpha workflow
-- Autoritativní zápis flagu `media.primaryVideo.alpha` do manifestu
+- Input: ProRes (`422`, `4444`, `Log`), `H.264`, `H.265`
+- macOS: use VideoToolbox for hardware-accelerated ProRes decode
+- Output (`The Bake`):
+- Primary: `HAP Q` for Windows and universal playback
+- Secondary: `ProRes 4444` for Mac and alpha workflows
+- Authoritative write of `media.primaryVideo.alpha` into the manifest
 
-2. Specifikace formátu (`.vjb`)
+2. Format Specification (`.vjb`)
 
-Zápis musí striktně odpovídat specifikaci v repozitáři `vjb-format`.
+Output must strictly follow the specification in the `vjb-format` repository.
 
 - Metadata generator:
-- automatický výpočet `source.durationMs`
-- automatický výpočet `source.fpsNominal`
-- automatický výpočet `source.frameCount`
-- automatický výpočet `media.primaryVideo.alpha`
+- automatic calculation of `source.durationMs`
+- automatic calculation of `source.fpsNominal`
+- automatic calculation of `source.frameCount`
+- automatic calculation of `media.primaryVideo.alpha`
 - Marker system:
-- markery se zapisují do pole `markers`
-- každý marker obsahuje objekt `state` s parametry `mode`, `direction`, `speed`
-- `direction` v exportovaném manifestu nesmí být `0`
-- Naming convention: důsledné používání `camelCase` v celém JSON manifestu
+- markers are written into the `markers` array
+- each marker includes a `state` object with `mode`, `direction`, and `speed`
+- `direction` in the exported manifest must never be `0`
+- Naming convention: consistent `camelCase` across the entire JSON manifest
 
-3. Časové báze a převod snímků
+3. Time Bases and Frame Transposition
 
-Bake Studio pracuje se dvěma frame prostory:
+Bake Studio operates with two frame spaces:
 
-- `source frame space`: původní video, ve kterém uživatel authoruje markery
-- `baked frame space`: interpolované exportované video, které se zapisuje do `.vjb`
+- `source frame space`: the original clip where the user authors markers
+- `baked frame space`: the interpolated export written into `.vjb`
 
-Normativní pravidla pro implementaci:
+Normative implementation rules:
 
-- editor ukládá marker interně jako `sourceFrame`
-- exportér převádí markery do baked frame space podle poměru `targetFps / source.fpsNominal`
-- do finálního `manifest.json` se zapisuje `markers[].frame` vždy v baked frame space
-- validace `.vjb` markerů se provádí proti `media.primaryVideo.frameCount`
-- jedna centrální rounding strategie musí být použita konzistentně v preview, exportu i segment logice
+- the editor stores markers internally as `sourceFrame`
+- the exporter converts markers into baked frame space using `targetFps / source.fpsNominal`
+- the final `manifest.json` always writes `markers[].frame` in baked frame space
+- `.vjb` marker validation runs against `media.primaryVideo.frameCount`
+- one central rounding strategy must be used consistently in preview, export, and segment logic
 
-4. UI/UX architektura (The Studio)
+4. UI/UX Architecture (The Studio)
 
-Rozhraní musí být optimalizované pro rychlou práci s rytmickým materiálem.
+The interface must be optimized for fast work with rhythmic material.
 
-A. Timeline a scrubbing
+A. Timeline and scrubbing
 
-- Filmstrip view: generování thumbnail stripu na pozadí pro celou časovou osu
-- Rhythm grid: možnost zapnout mřížku podle BPM pro přesné umisťování markerů
-- Hotkeys: klávesy `1-9` pro okamžité vložení markeru na pozici playheadu
+- Filmstrip view: generate background thumbnails for the full timeline
+- Rhythm grid: optional BPM-based grid for precise marker placement
+- Hotkeys: keys `1-9` for immediate marker insertion at the playhead
 
 B. Marker inspector
 
-- Panel pro editaci vybraného markeru:
-- změna frame číselně i tahem
-- nastavení entry behavior přes menu pro `mode`
-- interaktivní dial pro `direction` se snapem na `-1.0` a `1.0`
-- `0.0` může existovat pouze jako interní UI mezistav, nesmí být zapsáno do exportovaného manifestu
+- Inspector panel for editing the selected marker:
+- change frame numerically and by dragging
+- set entry behavior through a `mode` menu
+- interactive dial for `direction` with snap points at `-1.0` and `1.0`
+- `0.0` may exist only as an internal UI intermediate state and must never be written to the exported manifest
 
 C. Preview engine
 
-- Smart proxy: při rychlém scrubbingu zobrazovat zdrojové video nebo proxy
-- AI preview: při zastavení na snímku provést rychlou AI interpolaci pro náhled výsledné plynulosti
+- Smart proxy: show source video or proxy while scrubbing quickly
+- AI preview: when playback stops on a frame, run a fast interpolation preview of the resulting smoothness
 
-5. Workflow (uživatelská cesta)
+5. Workflow (User Journey)
 
-- Import: uživatel přetáhne ProRes Log video z iPhonu
-- Enhance: volitelně zapne upscale na 4K a aplikuje základní color correction
-- Index: projde video a na klíčové momenty nasází markery, například `m_hit`, `m_build`
-- Define states: u markeru `m_reverse` nastaví `direction: -1.0` a `mode: pingpong`
-- Bake: klikne na tlačítko, proběhne AI výpočet a vyexportuje se `.vjb` balíček
+- Import: the user drops in a ProRes Log video from an iPhone
+- Enhance: optionally enables 4K upscale and applies basic color correction
+- Index: reviews the video and places markers on key moments such as `m_hit` and `m_build`
+- Define states: sets `direction: -1.0` and `mode: pingpong` on marker `m_reverse`
+- Bake: starts the AI process and exports a `.vjb` bundle
 
-6. Technický stack
+6. Technical Stack
 
-- Platformy: Windows 11, macOS nativně na ARM64
+- Platforms: Windows 11 and native ARM64 macOS
 - Desktop shell: Tauri 2
 - Frontend: SolidJS + TypeScript
-- Struktura repa:
-- `apps/studio`: Tauri + SolidJS aplikace
-- `packages/project-model`: interní authoring model a frame mapping
-- `packages/vjb-core`: VJB manifest typy, validace a packaging
-- `packages/media-pipeline`: ffprobe/ffmpeg/rife orchestrace
-- `packages/shared`: sdílené utility a typy
-- Backend processing: FFmpeg binárka včetně `libavcodec` pro balení HAP a ProRes kontejnerů
+- Repository structure:
+- `apps/studio`: Tauri + SolidJS application
+- `packages/project-model`: internal authoring model and frame mapping
+- `packages/vjb-core`: VJB manifest types, validation, and packaging
+- `packages/media-pipeline`: ffprobe/ffmpeg/rife orchestration
+- `packages/shared`: shared utilities and types
+- Backend processing: FFmpeg binary including `libavcodec` for HAP and ProRes packaging
 
-7. Akceptační kritéria pro MVP
+7. MVP Acceptance Criteria
 
-- [ ] Úspěšné načtení ProRes 422 videa
-- [ ] AI interpolace z 30 FPS na 120 FPS bez pádu aplikace
-- [ ] Export funkčního `.vjb` balíčku s validním JSON manifestem podle specifikace
-- [ ] Korektní převod markerů ze source frame space do baked frame space
-- [ ] Funkční scrubbing na timeline bez lagování
+- [ ] Successful loading of ProRes 422 video
+- [ ] AI interpolation from 30 FPS to 120 FPS without application crash
+- [ ] Export of a working `.vjb` bundle with a valid JSON manifest according to the specification
+- [ ] Correct transposition of markers from source frame space to baked frame space
+- [ ] Smooth timeline scrubbing without lag
 
-Poznámka pro vývojáře:
+Developer note:
 
-`media.primaryVideo.alpha` je autoritativní playback flag. Pokud zdroj nemá alfu, ale uživatel chce export s alpha workflow, Bake Studio musí varovat nebo automaticky nastavit flag na `false`, aby renderer ani přehrávač zbytečně nepočítaly alpha větev.
+`media.primaryVideo.alpha` is the authoritative playback alpha flag. If the source has no alpha but the user requests an alpha-oriented export workflow, Bake Studio must either warn or automatically set the flag to `false` so the renderer and player do not waste work on an unnecessary alpha path.
