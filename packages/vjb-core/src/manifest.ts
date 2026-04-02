@@ -1,11 +1,11 @@
 import {
   createFrameMapping,
   resolveTargetFps,
-  type BakeStudioProject,
+  type BakeProject,
   type Direction,
   type MarkerMode,
   type TransportDefaults,
-} from "@bake-studio/project-model";
+} from "@vijual-bake-studio/project-model";
 
 export type VjbManifest = {
   schema: "com.vjb.bundle";
@@ -80,7 +80,7 @@ export type BakedMediaDescriptor = {
 };
 
 export function projectToVjbManifest(
-  project: BakeStudioProject,
+  project: BakeProject,
   bakedMedia: BakedMediaDescriptor,
 ): VjbManifest {
   const targetFps = resolveTargetFps(project.source.fpsNominal, project.bake.targetFps);

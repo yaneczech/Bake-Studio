@@ -2,15 +2,15 @@ import { createMemo } from "solid-js";
 import {
   createFrameMapping,
   createProject,
-  type BakeStudioProject,
-} from "@bake-studio/project-model";
-import { validateBakeStudioProject } from "@vijual-bake-studio/project-model";
+  type BakeProject,
+} from "@vijual-bake-studio/project-model";
+import { validateBakeProject } from "@vijual-bake-studio/project-model";
 import {
   createManifestHardRuleReport,
   projectToVjbManifest,
 } from "@vijual-bake-studio/vjb-core";
 
-const project: BakeStudioProject = createProject({
+const project: BakeProject = createProject({
   title: "Club Loop Prototype",
   source: {
     path: "/Volumes/media/club_loop.mov",
@@ -74,7 +74,7 @@ export function App() {
   const mapping = createMemo(() =>
     createFrameMapping(project.source.fpsNominal, resolveTargetFps(project)),
   );
-  const validation = createMemo(() => validateBakeStudioProject(project));
+  const validation = createMemo(() => validateBakeProject(project));
   const manifest = createMemo(() =>
     projectToVjbManifest(project, {
       path: "media/master.mov",
@@ -92,7 +92,7 @@ export function App() {
   return (
     <main class="app-shell">
       <section class="hero">
-        <p class="eyebrow">Bake Studio</p>
+        <p class="eyebrow">Vijual Bake Studio</p>
         <h1>VJB authoring scaffold for Tauri + SolidJS.</h1>
         <p class="lede">
           Source markers stay in source frame space. VJB export is generated in baked
@@ -180,6 +180,6 @@ export function App() {
   );
 }
 
-function resolveTargetFps(project: BakeStudioProject): number {
+function resolveTargetFps(project: BakeProject): number {
   return project.bake.targetFps === "auto" ? 120 : project.bake.targetFps;
 }

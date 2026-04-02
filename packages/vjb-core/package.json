@@ -1,5 +1,5 @@
 {
-  "name": "@bake-studio/vjb-core",
+  "name": "@vijual-bake-studio/vjb-core",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@bake-studio/project-model": "0.1.0"
+    "@vijual-bake-studio/project-model": "0.1.0"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

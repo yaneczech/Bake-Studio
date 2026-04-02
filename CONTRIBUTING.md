@@ -1,4 +1,4 @@
-Technical Brief: Bake Studio (TS-1)
+Technical Brief: Vijual Bake Studio (TS-1)
 
 Version: 1.1 (April 2026)
 
@@ -42,7 +42,7 @@ Output must strictly follow the specification in the `vjb-format` repository.
 
 3. Time Bases and Frame Transposition
 
-Bake Studio operates with two frame spaces:
+Vijual Bake Studio operates with two frame spaces:
 
 - `source frame space`: the original clip where the user authors markers
 - `baked frame space`: the interpolated export written into `.vjb`
@@ -109,4 +109,4 @@ C. Preview engine
 
 Developer note:
 
-`media.primaryVideo.alpha` is the authoritative playback alpha flag. If the source has no alpha but the user requests an alpha-oriented export workflow, Bake Studio must either warn or automatically set the flag to `false` so the renderer and player do not waste work on an unnecessary alpha path.
+`media.primaryVideo.alpha` is the authoritative playback alpha flag. If the source has no alpha but the user requests an alpha-oriented export workflow, Vijual Bake Studio must either warn or automatically set the flag to `false` so the renderer and player do not waste work on an unnecessary alpha path.

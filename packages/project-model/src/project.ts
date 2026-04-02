@@ -65,7 +65,7 @@ export type RhythmGrid = {
   enabled: boolean;
 };
 
-export type BakeStudioProject = {
+export type BakeProject = {
   id: string;
   version: 1;
   title: string;
@@ -80,8 +80,8 @@ export type BakeStudioProject = {
 };
 
 export function createProject(
-  input: Omit<BakeStudioProject, "id" | "version" | "createdAt" | "updatedAt">,
-): BakeStudioProject {
+  input: Omit<BakeProject, "id" | "version" | "createdAt" | "updatedAt">,
+): BakeProject {
   const timestamp = new Date().toISOString();
 
   return {

@@ -1,11 +1,11 @@
-import type { BakeStudioProject } from "./project";
+import type { BakeProject } from "./project";
 
 export type ValidationResult = {
   valid: boolean;
   errors: string[];
 };
 
-export function validateBakeStudioProject(project: BakeStudioProject): ValidationResult {
+export function validateBakeProject(project: BakeProject): ValidationResult {
   const errors: string[] = [];
   const markerIds = new Set<string>();
   const markerIndices = new Set<number>();

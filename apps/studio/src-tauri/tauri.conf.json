@@ -1,18 +1,18 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Bake Studio",
+  "productName": "Vijual Bake Studio",
   "version": "0.1.0",
-  "identifier": "com.vjb.bakestudio",
+  "identifier": "com.vijual.bakestudio",
   "build": {
-    "beforeDevCommand": "npm run dev --workspace @bake-studio/studio",
-    "beforeBuildCommand": "npm run build --workspace @bake-studio/studio",
+    "beforeDevCommand": "npm run dev --workspace @vijual-bake-studio/studio",
+    "beforeBuildCommand": "npm run build --workspace @vijual-bake-studio/studio",
     "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
   "app": {
     "windows": [
       {
-        "title": "Bake Studio",
+        "title": "Vijual Bake Studio",
         "width": 1440,
         "height": 960,
         "resizable": true
