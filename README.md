@@ -158,4 +158,4 @@ This is a source-available license, not an OSI open-source license.
 
 See also: [LICENSE-FAQ.md](/Users/janjanecek/Documents/GitHub/VJB/Bake%20Studio/LICENSE-FAQ.md)
 
-Developed by Jan Janecek.
+Developed by Jan Janeček.
