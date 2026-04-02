@@ -1,5 +1,5 @@
 {
-  "name": "bake-studio",
+  "name": "vijual-bake-studio",
   "private": true,
   "version": "0.1.0",
   "workspaces": [
@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run tauri:dev --workspace @bake-studio/studio",
+    "dev": "npm run tauri:dev --workspace @vijual-bake-studio/studio",
     "build": "npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
   }

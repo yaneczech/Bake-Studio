@@ -1,5 +1,5 @@
 {
-  "name": "@bake-studio/studio",
+  "name": "@vijual-bake-studio/studio",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -12,10 +12,10 @@
     "tauri:build": "tauri build"
   },
   "dependencies": {
-    "@bake-studio/media-pipeline": "0.1.0",
-    "@bake-studio/project-model": "0.1.0",
-    "@bake-studio/shared": "0.1.0",
-    "@bake-studio/vjb-core": "0.1.0",
+    "@vijual-bake-studio/media-pipeline": "0.1.0",
+    "@vijual-bake-studio/project-model": "0.1.0",
+    "@vijual-bake-studio/shared": "0.1.0",
+    "@vijual-bake-studio/vjb-core": "0.1.0",
     "@tauri-apps/api": "^2.8.0",
     "solid-js": "^1.9.12"
   },

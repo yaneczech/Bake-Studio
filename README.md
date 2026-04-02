@@ -1,5 +1,7 @@
 # Bake Studio
 
+<img src="src/vbs-logo.png" alt="Bake Studio logo" width="250" />
+
 Temporal Sampler TS-1.
 
 Bake Studio is an authoring tool for VJs and visual artists who need the fluidity of AI-interpolated motion with the precision of a rhythmic sampler. It prepares raw footage for live playback by baking it into `.vjb` bundles with high-FPS media, marker transport metadata, and deterministic playback behavior.

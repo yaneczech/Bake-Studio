@@ -4,11 +4,11 @@ import {
   createProject,
   type BakeStudioProject,
 } from "@bake-studio/project-model";
-import { validateBakeStudioProject } from "@bake-studio/project-model";
+import { validateBakeStudioProject } from "@vijual-bake-studio/project-model";
 import {
   createManifestHardRuleReport,
   projectToVjbManifest,
-} from "@bake-studio/vjb-core";
+} from "@vijual-bake-studio/vjb-core";
 
 const project: BakeStudioProject = createProject({
   title: "Club Loop Prototype",
