@@ -65,6 +65,22 @@ Each marker can carry entry state such as:
 
 That gives the playback tool enough information to jump into a segment with defined transport intent, while still allowing runtime overrides in performance software.
 
+### Marker Roles
+
+Vijual Bake Studio is being prepared for a VJB marker model with explicit marker roles:
+
+- `cue`: a playback entry marker that can define segment behavior
+- `quantize`: a timing reference marker for snapping, sync, or quantized jumps
+
+The intended VJB-compatible direction is:
+
+- `roles` is an optional marker field
+- missing `roles` defaults to `["cue"]` for backward compatibility
+- only markers with the `cue` role participate in implicit segment resolution
+- `quantize` markers do not implicitly terminate or start playback segments
+
+In the Bake Studio editor, this will map to separate authoring modes such as `Cue` and `Quantize`. If a user wants both meanings on the same frame, the editor may create two markers on the same source frame instead of forcing a hybrid marker UI.
+
 ## Architecture
 
 The repo is structured as a desktop workspace:
@@ -122,6 +138,38 @@ npm run build
 cd apps/studio/src-tauri && cargo check
 ```
 
+### FFmpeg Runtime
+
+For development or packaging, Vijual Bake Studio can resolve `ffmpeg` and `ffprobe` in this order:
+
+1. explicit env vars:
+   - `VIJUAL_BAKE_STUDIO_FFMPEG_PATH`
+   - `VIJUAL_BAKE_STUDIO_FFPROBE_PATH`
+2. repo-local bundled binaries in [apps/studio/src-tauri/resources/ffmpeg](/Users/janjanecek/Documents/GitHub/VJB/Bake%20Studio/apps/studio/src-tauri/resources/ffmpeg)
+3. packaged app resources
+4. system-installed binaries on `PATH`
+
+To avoid depending on Homebrew or a system install during development, place binaries here:
+
+- `apps/studio/src-tauri/resources/ffmpeg/ffmpeg.bin`
+- `apps/studio/src-tauri/resources/ffmpeg/ffprobe.bin`
+
+On Windows use `.exe.bin` filenames instead.
+
+Helper script:
+
+```bash
+scripts/setup-ffmpeg-runtime.sh
+```
+
+Or with explicit paths:
+
+```bash
+scripts/setup-ffmpeg-runtime.sh \
+  --ffmpeg /absolute/path/to/ffmpeg \
+  --ffprobe /absolute/path/to/ffprobe
+```
+
 ## Format Notes
 
 Vijual Bake Studio follows the VJB rules that matter most for playback interoperability:
@@ -131,6 +179,12 @@ Vijual Bake Studio follows the VJB rules that matter most for playback interoper
 - `media.primaryVideo.frameCount` and `media.primaryVideo.fps` are authoritative
 - exported marker `frame` values are written in baked frame space
 - `media.primaryVideo.alpha` is the authoritative playback alpha flag
+
+Planned VJB format evolution for marker semantics:
+
+- markers should move toward an optional `roles` array instead of a single marker kind
+- the compatibility default should remain `["cue"]`
+- `quantize` should be explicit, never the implicit default
 
 ## Community
 

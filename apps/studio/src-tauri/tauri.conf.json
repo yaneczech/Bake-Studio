@@ -6,12 +6,13 @@
   "build": {
     "beforeDevCommand": "npm run dev --workspace @vijual-bake-studio/studio",
     "beforeBuildCommand": "npm run build --workspace @vijual-bake-studio/studio",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:1430",
     "frontendDist": "../dist"
   },
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "Vijual Bake Studio",
         "width": 1440,
         "height": 960,
@@ -23,8 +24,13 @@
     }
   },
   "bundle": {
-    "active": false,
-    "targets": "all",
-    "icon": []
+    "active": true,
+    "targets": ["app"],
+    "icon": [],
+    "resources": [
+      "resources/ffmpeg/README.md",
+      "resources/ffmpeg/ffmpeg.bin",
+      "resources/ffmpeg/ffprobe.bin"
+    ]
   }
 }

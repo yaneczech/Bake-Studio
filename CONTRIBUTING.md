@@ -38,6 +38,9 @@ Output must strictly follow the specification in the `vjb-format` repository.
 - markers are written into the `markers` array
 - each marker includes a `state` object with `mode`, `direction`, and `speed`
 - `direction` in the exported manifest must never be `0`
+- marker semantics should move toward an optional `roles` array such as `["cue"]` or `["quantize"]`
+- if `roles` is absent, the compatibility default must be `["cue"]`
+- `quantize` must always be explicit and must never become the implicit default
 - Naming convention: consistent `camelCase` across the entire JSON manifest
 
 3. Time Bases and Frame Transposition
@@ -72,6 +75,8 @@ B. Marker inspector
 - set entry behavior through a `mode` menu
 - interactive dial for `direction` with snap points at `-1.0` and `1.0`
 - `0.0` may exist only as an internal UI intermediate state and must never be written to the exported manifest
+- authoring workflow should support separate insertion modes for `Cue` and `Quantize`
+- if the user needs both roles at the same source frame, prefer two colocated markers over an opaque hybrid marker type
 
 C. Preview engine
 
@@ -106,6 +111,7 @@ C. Preview engine
 - [ ] Export of a working `.vjb` bundle with a valid JSON manifest according to the specification
 - [ ] Correct transposition of markers from source frame space to baked frame space
 - [ ] Smooth timeline scrubbing without lag
+- [ ] Clear distinction between playback cue markers and quantize-only timing markers
 
 Developer note:
 
